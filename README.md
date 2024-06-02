@@ -9,4 +9,4 @@ Recipes do aplikacja, która przechowuje przepisy kuchenne. Interfejs aplikacji 
 - Usuwanie przepisów znajdujących się w bazie danych
 
 ## Uruchomienie aplikacji
-W celu otworzenia aplikacji należy uruchomić plik projekt.py
+W celu otworzenia aplikacji należy uruchomić plik project.py
