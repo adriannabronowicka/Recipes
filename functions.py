@@ -28,9 +28,9 @@ def delete_recipe_from_database(deleted_recipe):
     cur.execute("DELETE FROM Recipes WHERE LOWER(recipes_name) = LOWER(?)", (deleted_recipe,))
     con.commit()
     if cur.rowcount == 0:
-        messagebox.showerror("Error", f"The recipe {deleted_recipe} doesn't exist.")
+        messagebox.showerror("Error", f"The recipe '{deleted_recipe}' doesn't exist.")
     else:
-        messagebox.showinfo("Information", f"The recipe {deleted_recipe} has been deleted successfully.")
+        messagebox.showinfo("Information", f"The recipe '{deleted_recipe}' has been deleted successfully.")
 
     con.close()
 
