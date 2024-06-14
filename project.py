@@ -161,7 +161,7 @@ label_list_of_recipes = tk.Label(page_1_frame, text='List of recipes', font=('Ar
 label_list_of_recipes.pack(pady=(100, 0))
 
 listbox_frame = tk.Frame(page_1_frame)
-listbox_frame.pack(pady=(10, 0), fill=tk.BOTH, expand=True)
+listbox_frame.pack(pady=(10, 0), padx=(100, 100), fill=tk.BOTH, expand=True)
 listbox_all_recipes = tk.Listbox(listbox_frame, font=('Arial', 12), bg='beige')
 scrollbar = Scrollbar(listbox_frame, orient='vertical', command=listbox_all_recipes.yview)
 listbox_all_recipes.config(yscrollcommand=scrollbar.set)
