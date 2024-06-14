@@ -36,7 +36,7 @@ def delete_recipe_from_database(deleted_recipe):
 
 def see_the_recipe(searched_recipe, recipe_label):
     if not searched_recipe.strip():
-        messagebox.showerror("Error", "Please enter the name of recipe to delete.")
+        messagebox.showerror("Error", "Please enter the name of recipe you want to see.")
         return
     con = sqlite3.connect('recipes_database.db')
     cur = con.cursor()
@@ -63,9 +63,8 @@ def see_all_recipes():
     cur = con.cursor()
     cur.execute("SELECT recipes_name FROM Recipes ")
     result = cur.fetchall()
-    recipes_text = "\n".join(", ".join(row) for row in result)
     con.close()
-    return recipes_text
+    return [row[0] for row in result]
 
 
 def resize_image(image):

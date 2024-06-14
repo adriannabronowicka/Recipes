@@ -1,6 +1,6 @@
 from functions import *
 import tkinter as tk
-from tkinter import scrolledtext
+from tkinter import Scrollbar
 
 list_of_ingredients = []
 ingredients = []
@@ -17,18 +17,29 @@ def show_home_page():
 
 # Function for page of recipes list
 def see_all_recipes_page():
+    page_2_frame.pack_forget()
     home_page_frame.pack_forget()
     page_1_frame.pack(fill=tk.BOTH, expand=True)
-    scroll_text_all_recipes.config(state="normal")
-    scroll_text_all_recipes.delete("1.0", tk.END)
-    recipes_text = see_all_recipes()
-    scroll_text_all_recipes.insert(tk.END, recipes_text)
-    scroll_text_all_recipes.config(state="disabled")
+    listbox_all_recipes.delete(0, tk.END)
+    recipes = see_all_recipes()
+    for recipe in recipes:
+        listbox_all_recipes.insert(tk.END, recipe)
+
+
+def on_select_recipe(event):
+    selected_recipe = listbox_all_recipes.get(listbox_all_recipes.curselection())
+    page_1_frame.pack_forget()
+    see_the_recipe_page(selected_recipe)
+    search_recipe()
 
 
 # Functions for page of searched recipe
-def see_the_recipe_page():
-    searched_recipe_entry.delete(0, tk.END)
+def see_the_recipe_page(selected_recipe=None):
+    if selected_recipe:
+        searched_recipe_entry.delete(0, tk.END)
+        searched_recipe_entry.insert(0, selected_recipe)
+    else:
+        searched_recipe_entry.delete(0, tk.END)
     recipe_label.config(text="")
     home_page_frame.pack_forget()
     page_2_frame.pack(fill=tk.BOTH, expand=True)
@@ -148,9 +159,15 @@ background_label.place(x=0, y=0, relwidth=1, relheight=1)
 label_list_of_recipes = tk.Label(page_1_frame, text='List of recipes', font=('Arial', 14), foreground='orange',
                                  bg='beige')
 label_list_of_recipes.pack(pady=(100, 0))
-scroll_text_all_recipes = scrolledtext.ScrolledText(page_1_frame, wrap=tk.WORD, width=30, height=20,
-                                                    font=('Arial', 12), state="disabled", bg='beige')
-scroll_text_all_recipes.pack(pady=(10, 0))
+
+listbox_frame = tk.Frame(page_1_frame)
+listbox_frame.pack(pady=(10, 0), fill=tk.BOTH, expand=True)
+listbox_all_recipes = tk.Listbox(listbox_frame, font=('Arial', 12), bg='beige')
+scrollbar = Scrollbar(listbox_frame, orient='vertical', command=listbox_all_recipes.yview)
+listbox_all_recipes.config(yscrollcommand=scrollbar.set)
+listbox_all_recipes.bind('<<ListboxSelect>>', on_select_recipe)
+listbox_all_recipes.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
 button_go_back = tk.Button(page_1_frame, text='Go to home page', font=('Arial', 10), bg='orange',
                            command=show_home_page)
@@ -173,7 +190,11 @@ button_search_recipe.pack(pady=(10, 0))
 searched_recipe_entry.bind("<Return>", lambda event: button_search_recipe.invoke())
 
 recipe_label = tk.Label(page_2_frame, text="", font=("Arial", 12), wraplength=400, bg='beige')
-recipe_label.pack(pady=(10,0))
+recipe_label.pack(pady=(10, 0))
+
+button_go_to_list_of_recipes = tk.Button(page_2_frame, text='See the list of recipes', font=('Arial', 10),
+                                         bg='orange',command=see_all_recipes_page)
+button_go_to_list_of_recipes.pack(pady=(10, 0))
 
 button_go_back = tk.Button(page_2_frame, text='Go to home page', font=('Arial', 10), bg='orange',
                            command=show_home_page)
